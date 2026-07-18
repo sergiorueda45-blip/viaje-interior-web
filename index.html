@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIAJE INTERIOR | Podcast & Diseño Conceptual</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts (Solo Inter para un look Apple) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Inter', 'sans-serif'], // Usaremos Inter en bold para los títulos
+                    },
+                    colors: {
+                        'vi-black': '#000000',
+                        'vi-dark': '#0a0a0a',
+                        'vi-gray': '#1f1f1f',
+                        'vi-glass': 'rgba(255, 255, 255, 0.03)',
+                        'vi-glass-border': 'rgba(255, 255, 255, 0.08)'
+                    },
+                    animation: {
+                        'slide-down': 'slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'fade-in': 'fadeIn 0.3s ease-out forwards',
+                    },
+                    keyframes: {
+                        slideDown: {
+                            '0%': { transform: 'translate(-50%, -100%)', opacity: '0' },
+                            '100%': { transform: 'translate(-50%, 0)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #000000; color: #f5f5f5; }
+        
+        /* Transiciones súper suaves estilo Apple */
+        .smooth { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .bounce-click:active { transform: scale(0.95); transition: transform 0.1s; }
+        
+        /* Ocultar barra de scroll para limpieza visual */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Ruido sutil para textura */
+        .bg-noise {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="antialiased font-sans bg-noise relative selection:bg-white selection:text-black">
+
+    <!-- HEADER FLOTANTE (ESTILO ISLA DINÁMICA) -->
+    <header class="fixed w-full top-4 z-40 px-4 md:px-8 pointer-events-none flex justify-center">
+        <div class="pointer-events-auto bg-vi-dark/70 backdrop-blur-xl border border-vi-glass-border shadow-2xl rounded-full px-6 py-3 flex items-center justify-between w-full max-w-5xl">
+            <!-- Logo + Texto -->
+            <a href="#" class="flex items-center gap-3 group bounce-click">
+                <img src="https://res.cloudinary.com/fzbztprt/image/upload/v1784334885/Logo_Viaje_Interior_hunapd.png" alt="Viaje Interior Logo" class="h-8 w-auto object-contain smooth group-hover:opacity-80">
+                <span class="text-sm md:text-base font-black tracking-widest uppercase mt-0.5">Viaje Interior</span>
+            </a>
+            
+            <!-- Navegación Escritorio -->
+            <nav class="hidden md:flex gap-8 text-xs font-bold tracking-[0.15em] uppercase">
+                <a href="#podcast" class="text-gray-400 hover:text-white smooth">Podcast</a>
+                <a href="#capsula" class="text-gray-400 hover:text-white smooth">Tienda</a>
+            </nav>
+
+            <!-- Carrito -->
+            <button onclick="toggleCart()" class="relative p-2 flex items-center justify-center bounce-click group bg-white/5 hover:bg-white/10 rounded-full h-10 w-10 smooth border border-transparent hover:border-white/10">
+                <i class="fa-solid fa-bag-shopping text-sm text-white"></i>
+                <span id="cart-badge" class="absolute -top-1 -right-1 bg-white text-black text-[9px] h-4 w-4 flex items-center justify-center font-black rounded-full shadow-lg">0</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="pt-24 md:pt-32">
+        <!-- HERO SECTION -->
+        <section class="relative min-h-[85vh] flex flex-col justify-center items-center px-6 text-center overflow-hidden">
+            <!-- Luces de fondo difusas -->
+            <div class="absolute inset-0 bg-gradient-to-b from-vi-gray/20 to-vi-black pointer-events-none"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white opacity-[0.02] blur-[120px] rounded-full pointer-events-none"></div>
+            
+            <div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
+                <!-- Píldora Tagline -->
+                <div class="bg-vi-glass border border-vi-glass-border rounded-full px-5 py-2 mb-8 backdrop-blur-sm shadow-lg">
+                    <span class="text-[10px] md:text-xs font-bold tracking-[0.3em] text-gray-300 uppercase">Podcast & Diseño Conceptual</span>
+                </div>
+                
+                <!-- Título Apple Style (Pesado, tracking ajustado) -->
+                <h2 class="font-display font-black text-6xl sm:text-8xl md:text-[140px] leading-[0.9] tracking-tighter uppercase mb-8 text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-500 drop-shadow-2xl">
+                    Desarma<br>El Ego.
+                </h2>
+                
+                <p class="text-gray-400 max-w-2xl mx-auto text-sm md:text-base font-medium mb-12 uppercase tracking-[0.1em] leading-relaxed">
+                    El podcast para desarmar el ego. La ropa para vestir el proceso. No mires a otro lado, explora el ruido.
+                </p>
+                
+                <!-- Botones redondeados iOS -->
+                <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center">
+                    <a href="#capsula" class="bounce-click bg-white text-black font-black py-4 px-10 text-xs uppercase tracking-[0.15em] rounded-full hover:bg-gray-200 smooth w-full sm:w-auto shadow-[0_0_30px_rgba(255,255,255,0.15)] flex items-center justify-center">
+                        Ver Colección
+                    </a>
+                    <a href="#podcast" class="bounce-click bg-vi-glass border border-vi-glass-border text-white font-bold py-4 px-10 text-xs uppercase tracking-[0.15em] rounded-full hover:bg-white/10 backdrop-blur-md smooth w-full sm:w-auto flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-play text-xs"></i> Último Episodio
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN PODCAST -->
+        <section id="podcast" class="py-24 md:py-32 px-6 relative">
+            <div class="max-w-7xl mx-auto bg-vi-glass border border-vi-glass-border rounded-[2.5rem] p-8 md:p-16 backdrop-blur-md shadow-2xl relative overflow-hidden">
+                <!-- Luz interna tarjeta -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-[80px] rounded-full pointer-events-none"></div>
+
+                <div class="flex flex-col-reverse lg:flex-row gap-16 lg:gap-24 items-center relative z-10">
+                    
+                    <!-- Reproductor YouTube Redondeado -->
+                    <div class="w-full lg:w-1/2 relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-gray-600 to-gray-800 opacity-20 blur-xl rounded-[2rem] smooth group-hover:opacity-40 duration-700"></div>
+                        <div class="relative aspect-video w-full rounded-[1.5rem] overflow-hidden border border-white/10 shadow-2xl bg-black">
+                            <iframe class="w-full h-full grayscale-[0.2] hover:grayscale-0 smooth duration-700 relative z-10" src="https://www.youtube-nocookie.com/embed/Vf6lxROwwMo?autoplay=0&rel=0&modestbranding=1" title="Podcast Viaje Interior" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                    <!-- Info Podcast -->
+                    <div class="w-full lg:w-1/2 flex flex-col items-start text-left">
+                        <div class="bg-white/10 text-white rounded-full px-4 py-1.5 mb-6 backdrop-blur-sm border border-white/5 inline-flex">
+                            <span class="text-[10px] font-black uppercase tracking-[0.2em]">T3 / Ep. 01</span>
+                        </div>
+                        <h3 class="font-display font-black text-4xl md:text-5xl uppercase tracking-tighter mb-6 leading-[1.1]">El Origen y<br>Las Cicatrices</h3>
+                        <p class="text-gray-400 mb-10 leading-relaxed font-normal text-sm md:text-base border-l-2 border-white/10 pl-6">
+                            Conocer la historia también es comprender las palabras. En esta conversación íntima, Sergio entrevista a Juan sobre la vida antes del micrófono: el ciclismo, los momentos oscuros y la búsqueda de propósito que le dio vida a este espacio.<br><br>Porque antes de hablar sobre la vida, hubo una vida que aprender a vivir.
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4 w-full">
+                            <a href="https://open.spotify.com/show/06Yl0G52d9q0j7DkF38cT5" target="_blank" class="bounce-click w-full sm:w-1/2 flex items-center justify-center gap-3 text-xs font-black uppercase tracking-[0.1em] bg-[#1DB954] text-black px-6 py-4 rounded-full hover:bg-[#1ed760] smooth shadow-[0_10px_30px_rgba(29,185,84,0.2)]">
+                                <i class="fa-brands fa-spotify text-xl"></i> Spotify
+                            </a>
+                            <a href="https://www.youtube.com/watch?v=Vf6lxROwwMo" target="_blank" class="bounce-click w-full sm:w-1/2 flex items-center justify-center gap-3 text-xs font-black uppercase tracking-[0.1em] bg-vi-glass border border-vi-glass-border backdrop-blur-xl text-white px-6 py-4 rounded-full hover:bg-white/10 smooth shadow-[0_10px_30px_rgba(255,255,255,0.05)]">
+                                <i class="fa-brands fa-youtube text-[#FF0000] text-xl"></i> YouTube
+                            </a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN TIENDA / CÁPSULA -->
+        <section id="capsula" class="py-24 md:py-32 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 px-2">
+                    <div>
+                        <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-3 pl-1">Colección Inicial — Drop 001</span>
+                        <h3 class="font-display font-black text-5xl md:text-7xl uppercase tracking-tighter leading-[1.1] text-white">
+                            El Punto<br>Ciego.
+                        </h3>
+                    </div>
+                    <p class="text-xs text-gray-400 uppercase tracking-[0.15em] leading-relaxed md:text-right max-w-sm font-medium bg-vi-glass border border-vi-glass-border p-4 rounded-2xl backdrop-blur-sm">
+                        No es solo ropa, es una declaración de principios. Unidades limitadas creadas para quienes habitan la incomodidad.
+                    </p>
+                </div>
+                
+                <!-- El grid donde JS inyectará los productos -->
+                <div id="grid-productos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                    <!-- Productos Inyectados por JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER REDISEÑADO -->
+    <footer class="bg-vi-dark/50 backdrop-blur-md border-t border-vi-glass-border pt-20 pb-12 px-6 mt-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-16 mb-16 text-center md:text-left bg-vi-glass border border-vi-glass-border p-10 rounded-[2.5rem]">
+                <!-- Marca -->
+                <div class="flex flex-col items-center md:items-start">
+                    <img src="https://res.cloudinary.com/fzbztprt/image/upload/v1784334885/Logo_Viaje_Interior_hunapd.png" alt="Viaje Interior Logo" class="h-12 mb-6 opacity-60 hover:opacity-100 smooth">
+                    <h2 class="font-black text-2xl text-white uppercase tracking-tighter mb-3">Viaje Interior</h2>
+                    <p class="text-[11px] text-gray-400 uppercase tracking-widest leading-relaxed">Podcast & Diseño Conceptual.<br>Medellín, Colombia.</p>
+                </div>
+                
+                <!-- Redes Proyecto -->
+                <div class="flex flex-col items-center md:items-start">
+                    <h4 class="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-6 px-4 py-1.5 bg-white/10 rounded-full border border-white/5">La Comunidad</h4>
+                    <div class="space-y-4 flex flex-col items-center md:items-start">
+                        <a href="https://instagram.com/interiorviaje" target="_blank" class="text-xs text-gray-400 hover:text-white uppercase tracking-widest smooth flex items-center gap-2"><i class="fa-brands fa-instagram text-sm"></i> @interiorviaje</a>
+                        <a href="https://www.tiktok.com/@viaje_interior_podcast" target="_blank" class="text-xs text-gray-400 hover:text-white uppercase tracking-widest smooth flex items-center gap-2"><i class="fa-brands fa-tiktok text-sm"></i> @viaje_interior_podcast</a>
+                    </div>
+                </div>
+
+                <!-- Creadores -->
+                <div class="flex flex-col items-center md:items-start">
+                    <h4 class="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-6 px-4 py-1.5 bg-white/10 rounded-full border border-white/5">Las Voces</h4>
+                    <div class="space-y-4 flex flex-col items-center md:items-start">
+                        <a href="https://instagram.com/sergio_rueda_" target="_blank" class="text-xs text-gray-400 hover:text-white uppercase tracking-widest smooth flex items-center gap-2"><i class="fa-brands fa-instagram text-sm"></i> @sergio_rueda_</a>
+                        <a href="https://instagram.com/bgjuanfelipe" target="_blank" class="text-xs text-gray-400 hover:text-white uppercase tracking-widest smooth flex items-center gap-2"><i class="fa-brands fa-instagram text-sm"></i> @bgjuanfelipe</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 px-4">
+                <p class="text-[10px] font-bold text-gray-500 uppercase tracking-[0.15em]">
+                    © 2026 Viaje Interior. Todo está en la mente.
+                </p>
+                <p class="text-[10px] font-medium text-gray-600 uppercase tracking-widest">
+                    Desarrollado para mentes críticas.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LIGHTBOX (VISOR DE IMÁGENES) -->
+    <div id="lightbox" class="fixed inset-0 bg-black/80 backdrop-blur-2xl z-[70] hidden flex-col items-center justify-center smooth opacity-0 transition-all duration-300">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 md:top-10 md:right-10 bg-white/10 hover:bg-white/20 text-white rounded-full w-12 h-12 flex items-center justify-center smooth border border-white/10 shadow-xl z-[80] bounce-click">
+            <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+        <div class="w-full h-full p-4 md:p-12 flex items-center justify-center relative">
+            <img id="lightbox-img" src="" class="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.5)] scale-95 smooth transition-transform duration-300">
+        </div>
+    </div>
+
+    <!-- OVERLAY CARRITO -->
+    <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 opacity-0 pointer-events-none smooth transition-opacity duration-300"></div>
+    
+    <!-- PANEL LATERAL (DRAWER REDONDEADO iOS) -->
+    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[450px] bg-vi-dark/85 backdrop-blur-2xl border-l border-vi-glass-border z-50 transform translate-x-full smooth transition-transform duration-400 ease-out flex flex-col shadow-[-20px_0_50px_rgba(0,0,0,0.5)] sm:rounded-l-[2rem]">
+        
+        <div class="p-8 border-b border-white/5 flex justify-between items-center">
+            <h2 class="font-black text-2xl uppercase tracking-widest">Tu Equipo</h2>
+            <button onclick="toggleCart()" class="bg-white/5 hover:bg-white/10 border border-white/5 w-10 h-10 rounded-full flex items-center justify-center text-white smooth bounce-click">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 hide-scrollbar">
+            <!-- Items se llenan aquí -->
+        </div>
+
+        <div class="p-8 border-t border-white/5 bg-black/40">
+            <div class="flex justify-between items-center mb-8 bg-vi-glass p-5 rounded-2xl border border-white/5">
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Total</span>
+                <span id="cart-total" class="font-black text-3xl text-white">$0</span>
+            </div>
+            
+            <div id="checkout-section" class="hidden">
+                <div class="mb-6">
+                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2 px-2">Tu Nombre (Para el pedido)</label>
+                    <input type="text" id="buyer-name" placeholder="Ej. Juan Pérez" class="w-full bg-black/50 border border-white/10 text-white px-5 py-4 rounded-xl outline-none focus:border-white/40 smooth text-sm font-bold placeholder-gray-600 shadow-inner">
+                </div>
+
+                <button id="checkout-btn" onclick="sendToWhatsApp()" class="bounce-click w-full bg-white text-black font-black py-4 rounded-xl text-xs uppercase tracking-[0.15em] hover:bg-gray-200 smooth flex items-center justify-center gap-3 shadow-[0_10px_30px_rgba(255,255,255,0.15)]">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> Confirmar vía WhatsApp
+                </button>
+                <p class="text-center text-[9px] text-gray-500 font-bold uppercase tracking-widest mt-5">
+                    Pago y envío se coordinan por chat directo.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICACIONES TOAST (PÍLDORA SUPERIOR) -->
+    <div id="toast-container" class="fixed top-24 left-1/2 transform -translate-x-1/2 z-[60] flex flex-col gap-3 pointer-events-none"></div>
+
+    <script>
+        let cart = [];
+        let isCartOpen = false;
+        let productsData = []; 
+
+        const API_URL = 'https://script.google.com/macros/s/AKfycbx-YXJ6YUBbLPaBlrflUQRmh5le_NwwzM3Ygaaxqr7hINIR_PRtj7T-QgHNtdmyUhDQaw/exec';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadInventory();
+        });
+
+        // ----- FUNCIONES DEL LIGHTBOX -----
+        function openLightbox(imageSrc) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            
+            lightboxImg.src = imageSrc;
+            lightbox.classList.remove('hidden');
+            
+            setTimeout(() => {
+                lightbox.classList.remove('opacity-0');
+                lightboxImg.classList.remove('scale-95');
+                lightboxImg.classList.add('scale-100');
+            }, 10);
+            
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            
+            lightbox.classList.add('opacity-0');
+            lightboxImg.classList.remove('scale-100');
+            lightboxImg.classList.add('scale-95');
+            
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                lightboxImg.src = '';
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        // ----- SISTEMA DE INVENTARIO Y UI -----
+        async function loadInventory() {
+            const grid = document.getElementById('grid-productos');
+            grid.innerHTML = `
+                <div class="col-span-full py-24 flex flex-col items-center justify-center opacity-50 bg-vi-glass border border-vi-glass-border rounded-[2rem]">
+                    <i class="fa-solid fa-circle-notch fa-spin text-3xl mb-4"></i>
+                    <p class="text-gray-400 text-xs tracking-widest font-bold uppercase text-center">Conectando...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`${API_URL}?action=getInventory`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    productsData = result.data;
+                    if (productsData.length === 0) {
+                        grid.innerHTML = '<p class="text-gray-500 text-xs font-bold tracking-widest uppercase col-span-full text-center py-20 bg-vi-glass border border-vi-glass-border rounded-[2rem]">Aún no hay piezas disponibles.</p>';
+                    } else {
+                        renderProducts(productsData);
+                    }
+                } else {
+                    grid.innerHTML = '<p class="text-red-400 text-xs tracking-widest uppercase col-span-full text-center py-10 bg-red-900/10 border border-red-900/30 rounded-2xl">Error de conexión.</p>';
+                }
+            } catch (error) {
+                grid.innerHTML = '<p class="text-red-400 text-xs tracking-widest uppercase col-span-full text-center py-10 bg-red-900/10 border border-red-900/30 rounded-2xl">Revisa tu internet.</p>';
+            }
+        }
+
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            // Estilo Píldora Apple
+            toast.className = 'bg-white/95 backdrop-blur-xl text-black px-6 py-3 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-[0.15em] shadow-[0_20px_40px_rgba(0,0,0,0.5)] border border-white/20 animate-slide-down flex items-center gap-2';
+            toast.innerHTML = `<i class="fa-solid fa-check-circle text-green-600"></i> ${msg}`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translate(-50%, -20px)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        function renderProducts(products) {
+            const grid = document.getElementById('grid-productos');
+            grid.innerHTML = products.map(p => {
+                const tallasArr = p.tallas ? p.tallas.toString().split(',').map(t => t.trim()) : ['Única'];
+                const optionsHTML = tallasArr.map(t => `<option value="${t}">${t}</option>`).join('');
+
+                return `
+                <div class="group flex flex-col bg-vi-glass border border-vi-glass-border rounded-[2rem] p-4 sm:p-5 hover:bg-white/[0.05] smooth transition-colors shadow-xl">
+                    
+                    <!-- Imagen de Producto con bordes redondeados -->
+                    <div class="relative aspect-[4/5] bg-black rounded-[1.5rem] overflow-hidden mb-6 flex items-center justify-center cursor-pointer border border-transparent group-hover:border-white/10 smooth" onclick="openLightbox('${p.img}')">
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent smooth z-10 transition-colors"></div>
+                        
+                        <!-- Ícono Zoom flotante -->
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                            <div class="bg-white/10 text-white backdrop-blur-xl rounded-full w-12 h-12 flex items-center justify-center border border-white/20 shadow-lg">
+                                <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                            </div>
+                        </div>
+
+                        <img src="${p.img}" onerror="this.src='https://via.placeholder.com/400x500/121212/ffffff?text=X'" alt="${p.name}" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-105 smooth duration-700">
+                    </div>
+                    
+                    <div class="flex flex-col mb-6 px-2">
+                        <h4 class="font-black tracking-tight text-xl sm:text-2xl uppercase mb-1 text-white">${p.name}</h4>
+                        <p class="text-gray-400 text-sm font-bold tracking-widest">$${Number(p.price).toLocaleString('es-CO')}</p>
+                    </div>
+                    
+                    <!-- Controles Redondeados -->
+                    <div class="flex gap-3 mt-auto">
+                        <select id="talla-${p.id}" class="bg-black/50 border border-white/10 rounded-xl text-white text-xs px-4 outline-none font-bold uppercase tracking-widest focus:border-white/40 smooth w-[40%] appearance-none text-center cursor-pointer shadow-inner">
+                            ${optionsHTML}
+                        </select>
+                        <button onclick="addToCart('${p.id}')" class="bounce-click bg-white text-black text-[10px] sm:text-xs font-black uppercase tracking-[0.15em] py-4 rounded-xl w-[60%] hover:bg-gray-200 smooth shadow-lg flex items-center justify-center gap-2">
+                            Añadir <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        // ----- FUNCIONES DEL CARRITO -----
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            const overlay = document.getElementById('cart-overlay');
+            isCartOpen = !isCartOpen;
+            
+            if (isCartOpen) {
+                overlay.classList.remove('pointer-events-none', 'opacity-0');
+                drawer.classList.remove('translate-x-full');
+            } else {
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                drawer.classList.add('translate-x-full');
+            }
+        }
+
+        function addToCart(productId) {
+            const product = productsData.find(p => p.id === productId);
+            const size = document.getElementById(`talla-${productId}`).value;
+            
+            const existing = cart.find(item => item.id === productId && item.size === size);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ ...product, size, qty: 1 });
+            }
+            
+            updateCartUI();
+            showToast('Agregado al equipo');
+            if(!isCartOpen) toggleCart();
+        }
+
+        function remove(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+            const badge = document.getElementById('cart-badge');
+            const checkoutSection = document.getElementById('checkout-section');
+            
+            const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
+            badge.innerText = totalItems;
+            
+            if (cart.length === 0) {
+                container.innerHTML = '<div class="h-full flex flex-col items-center justify-center opacity-50"><i class="fa-solid fa-ghost text-4xl mb-4"></i><p class="text-gray-300 text-[10px] font-bold uppercase tracking-[0.2em] text-center">Tu equipo está vacío.</p></div>';
+                totalEl.innerText = '$0';
+                checkoutSection.classList.add('hidden');
+                return;
+            }
+
+            checkoutSection.classList.remove('hidden');
+            
+            container.innerHTML = cart.map((item, idx) => `
+                <div class="flex gap-4 items-center p-4 bg-white/5 border border-white/5 rounded-2xl">
+                    <img src="${item.img}" class="w-16 h-20 object-cover rounded-xl grayscale opacity-90" alt="${item.name}">
+                    <div class="flex-1">
+                        <h5 class="font-black uppercase tracking-tight text-base text-white">${item.name}</h5>
+                        <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1">
+                            Talla: <span class="text-white">${item.size}</span> — Cant: <span class="text-white">${item.qty}</span>
+                        </p>
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-sm font-bold text-gray-200">$${(item.price * item.qty).toLocaleString('es-CO')}</span>
+                            <button onclick="remove(${idx})" class="bounce-click text-[10px] font-bold text-red-400 uppercase tracking-widest hover:text-red-300 smooth bg-red-400/10 px-3 py-1.5 rounded-lg">Quitar</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            totalEl.innerText = `$${total.toLocaleString('es-CO')}`;
+        }
+
+        async function sendToWhatsApp() {
+            const name = document.getElementById('buyer-name').value.trim();
+            if(!name) {
+                showToast('Ingresa tu nombre');
+                document.getElementById('buyer-name').focus();
+                return;
+            }
+
+            const btn = document.getElementById('checkout-btn');
+            const originalBtnText = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-lg"></i> Procesando...';
+            btn.disabled = true;
+
+            try {
+                const payload = { buyerName: name, cart: cart };
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    const orderId = result.orderId;
+                    const phone = result.whatsappNumber; 
+                    
+                    let message = `*NUEVO PEDIDO - VIAJE INTERIOR*%0A`;
+                    message += `*ID de Orden:* ${orderId}%0A%0A`;
+                    message += `Soy *${name.toUpperCase()}* y quiero confirmar mi compra:%0A%0A`;
+                    
+                    let total = 0;
+                    cart.forEach(item => {
+                        const sub = item.price * item.qty;
+                        total += sub;
+                        message += `▪ ${item.qty}x ${item.name} (Talla ${item.size}) - $${sub.toLocaleString('es-CO')}%0A`;
+                    });
+                    
+                    message += `%0A*TOTAL: $${total.toLocaleString('es-CO')} COP*%0A%0A`;
+                    message += `Quedo atento para coordinar el pago.`;
+
+                    cart = [];
+                    updateCartUI();
+                    toggleCart();
+                    showToast('Orden Registrada');
+                    
+                    setTimeout(() => {
+                        window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${message}`, '_blank');
+                    }, 800);
+
+                } else {
+                    showToast('Error en el servidor');
+                }
+            } catch (error) {
+                showToast('Revisa tu conexión');
+            } finally {
+                btn.innerHTML = originalBtnText;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
