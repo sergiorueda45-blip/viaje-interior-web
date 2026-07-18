@@ -59,30 +59,31 @@
 <body class="antialiased font-sans bg-noise relative selection:bg-white selection:text-black">
 
     
-    <!-- HEADER ISLA DINÁMICA iOS -->
-    <header class="fixed w-full top-4 z-40 px-4 md:px-8 pointer-events-none flex justify-center">
-        <!-- Contenedor adaptativo: flex-wrap en móvil, flex-nowrap en PC -->
-        <div class="pointer-events-auto bg-vi-dark/70 backdrop-blur-3xl border border-vi-glass-border shadow-[0_20px_40px_rgba(0,0,0,0.5)] rounded-[1.5rem] md:rounded-full p-3 md:px-5 md:py-2.5 flex flex-wrap md:flex-nowrap items-center justify-between w-full max-w-5xl gap-y-3 md:gap-y-0">
+    <!-- HEADER ISLA DINÁMICA iOS (Horizontal con Logo Apilado) -->
+    <header class="fixed w-full top-4 z-40 px-3 md:px-8 pointer-events-none flex justify-center">
+        <div class="pointer-events-auto bg-vi-dark/70 backdrop-blur-3xl border border-vi-glass-border shadow-[0_20px_40px_rgba(0,0,0,0.5)] rounded-full px-4 md:px-6 py-2.5 flex items-center justify-between w-full max-w-5xl">
             
-            <!-- 1. Logo (Izquierda siempre) -->
-            <a href="#" class="flex items-center gap-2 md:gap-3 group bounce-click order-1 shrink-0">
+            <!-- 1. Logo (Texto apilado verticalmente para ahorrar espacio horizontal) -->
+            <a href="#" class="flex items-center gap-2 md:gap-3 group bounce-click shrink-0">
                 <img src="https://res.cloudinary.com/fzbztprt/image/upload/v1784334885/Logo_Viaje_Interior_hunapd.png" alt="Logo" class="h-7 md:h-9 w-auto object-contain smooth group-hover:opacity-80">
-                <span class="text-[11px] md:text-sm font-black tracking-widest uppercase mt-0.5 text-white">Viaje Interior</span>
+                <div class="flex flex-col leading-[1.1] mt-0.5">
+                    <span class="text-[9px] md:text-xs font-black tracking-widest uppercase text-white">Viaje</span>
+                    <span class="text-[9px] md:text-xs font-black tracking-widest uppercase text-white text-gray-300">Interior</span>
+                </div>
             </a>
             
-            <!-- 2. Pestañas (Abajo en móvil, Centro en PC) -->
-            <nav class="flex gap-5 sm:gap-8 text-[9px] sm:text-[11px] font-bold tracking-[0.15em] uppercase order-3 md:order-2 w-full md:w-auto justify-center pt-2 md:pt-0 border-t border-white/5 md:border-transparent">
-                <a href="#podcast" onclick="switchCategory('all')" class="text-gray-400 hover:text-white smooth py-1">Podcast</a>
-                <button onclick="switchCategory('ropa')" id="tab-ropa" class="text-white border-b-2 border-white pb-1 smooth uppercase font-bold tracking-[0.15em]">Piezas</button>
-                <button onclick="switchCategory('cafe')" id="tab-cafe" class="text-gray-400 hover:text-white pb-1 smooth uppercase font-bold tracking-[0.15em] flex items-center gap-1.5"><i class="fa-solid fa-mug-hot text-[10px] text-amber-500"></i> Café</button>
+            <!-- 2. Pestañas -->
+            <nav class="flex gap-4 md:gap-8 text-[9px] md:text-[11px] font-bold tracking-[0.1em] md:tracking-[0.15em] uppercase items-center pt-0.5">
+                <a href="#podcast" onclick="switchCategory('podcast')" id="tab-podcast" class="text-gray-400 hover:text-white pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em]">Podcast</a>
+                <button onclick="switchCategory('ropa')" id="tab-ropa" class="text-white border-b-2 border-white pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em]">Piezas</button>
+                <button onclick="switchCategory('cafe')" id="tab-cafe" class="text-gray-400 hover:text-white pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em] flex items-center gap-1"><i class="fa-solid fa-mug-hot text-[9px] text-amber-500"></i> Café</button>
             </nav>
 
-            <!-- 3. Carrito (Derecha en móvil, Derecha en PC) -->
-            <button onclick="toggleCart()" class="relative p-2 flex items-center justify-center bounce-click group bg-white/10 hover:bg-white/20 rounded-full h-8 w-8 md:h-10 md:w-10 smooth border border-white/10 shadow-inner order-2 md:order-3 shrink-0">
+            <!-- 3. Carrito -->
+            <button onclick="toggleCart()" class="relative p-2 flex items-center justify-center bounce-click group bg-white/10 hover:bg-white/20 rounded-full h-8 w-8 md:h-10 md:w-10 smooth border border-white/10 shadow-inner shrink-0">
                 <i class="fa-solid fa-bag-shopping text-xs md:text-sm text-white"></i>
                 <span id="cart-badge" class="absolute -top-1 -right-1 bg-white text-black text-[9px] md:text-[10px] h-4 w-4 flex items-center justify-center font-black rounded-full shadow-lg">0</span>
             </button>
-            
         </div>
     </header>
 
@@ -314,29 +315,35 @@
         let currentCategory = 'ropa'; // Categoría por defecto al entrar
 
         function switchCategory(category) {
-            if (category === 'all') return; // Si toca podcast solo hace scroll
-            currentCategory = category;
-            
-            // Actualizar estilo visual de las pestañas en la Isla Dinámica
             const tabRopa = document.getElementById('tab-ropa');
             const tabCafe = document.getElementById('tab-cafe');
+            const tabPodcast = document.getElementById('tab-podcast');
             const teaser = document.getElementById('cafe-teaser');
-            
+
+            // 1. Apagar todas las pestañas (Gris)
+            tabRopa.className = "text-gray-400 hover:text-white pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em]";
+            tabCafe.className = "text-gray-400 hover:text-white pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em] flex items-center gap-1";
+            tabPodcast.className = "text-gray-400 hover:text-white pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em]";
+
+            // 2. Encender la pestaña seleccionada y ejecutar su acción
             if (category === 'ropa') {
-                tabRopa.className = "text-white border-b-2 border-white pb-1 smooth uppercase font-bold tracking-[0.15em]";
-                tabCafe.className = "text-gray-400 hover:text-white pb-1 smooth uppercase font-bold tracking-[0.15em] flex items-center gap-1.5";
+                currentCategory = 'ropa';
+                tabRopa.className = "text-white border-b-2 border-white pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em]";
                 if(teaser) teaser.classList.add('hidden');
+                renderProducts(productsData);
+                document.getElementById('capsula').scrollIntoView({ behavior: 'smooth' });
+                
             } else if (category === 'cafe') {
-                tabCafe.className = "text-amber-400 border-b-2 border-amber-400 pb-1 smooth uppercase font-bold tracking-[0.15em] flex items-center gap-1.5";
-                tabRopa.className = "text-gray-400 hover:text-white pb-1 smooth uppercase font-bold tracking-[0.15em]";
+                currentCategory = 'cafe';
+                tabCafe.className = "text-amber-400 border-b-2 border-amber-400 pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em] flex items-center gap-1";
                 if(teaser) teaser.classList.remove('hidden');
+                renderProducts(productsData);
+                document.getElementById('capsula').scrollIntoView({ behavior: 'smooth' });
+                
+            } else if (category === 'podcast') {
+                tabPodcast.className = "text-white border-b-2 border-white pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em]";
+                // No re-renderizamos la tienda, solo iluminamos la pestaña del podcast (el scroll lo hace el href del botón)
             }
-            
-            // Re-renderizar la grilla filtrada sin volver a llamar a Google Sheets
-            renderProducts(productsData);
-            
-            // Scroll suave a la tienda si el usuario estaba muy arriba
-            document.getElementById('capsula').scrollIntoView({ behavior: 'smooth' });
         }
 
         const API_URL = 'https://script.google.com/macros/s/AKfycbx-YXJ6YUBbLPaBlrflUQRmh5le_NwwzM3Ygaaxqr7hINIR_PRtj7T-QgHNtdmyUhDQaw/exec';
