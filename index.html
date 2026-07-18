@@ -58,25 +58,31 @@
 </head>
 <body class="antialiased font-sans bg-noise relative selection:bg-white selection:text-black">
 
+    
     <!-- HEADER ISLA DINÁMICA iOS -->
     <header class="fixed w-full top-4 z-40 px-4 md:px-8 pointer-events-none flex justify-center">
-        <div class="pointer-events-auto bg-vi-dark/70 backdrop-blur-3xl border border-vi-glass-border shadow-[0_20px_40px_rgba(0,0,0,0.5)] rounded-full px-5 py-2.5 flex items-center justify-between w-full max-w-5xl">
-            <!-- Logo + Texto Autoridad -->
-            <a href="#" class="flex items-center gap-3 group bounce-click">
-                <img src="https://res.cloudinary.com/fzbztprt/image/upload/v1784334885/Logo_Viaje_Interior_hunapd.png" alt="Logo" class="h-9 w-auto object-contain smooth group-hover:opacity-80">
-                <span class="text-sm font-black tracking-widest uppercase mt-0.5 text-white">Viaje Interior</span>
+        <!-- Contenedor adaptativo: flex-wrap en móvil, flex-nowrap en PC -->
+        <div class="pointer-events-auto bg-vi-dark/70 backdrop-blur-3xl border border-vi-glass-border shadow-[0_20px_40px_rgba(0,0,0,0.5)] rounded-[1.5rem] md:rounded-full p-3 md:px-5 md:py-2.5 flex flex-wrap md:flex-nowrap items-center justify-between w-full max-w-5xl gap-y-3 md:gap-y-0">
+            
+            <!-- 1. Logo (Izquierda siempre) -->
+            <a href="#" class="flex items-center gap-2 md:gap-3 group bounce-click order-1 shrink-0">
+                <img src="https://res.cloudinary.com/fzbztprt/image/upload/v1784334885/Logo_Viaje_Interior_hunapd.png" alt="Logo" class="h-7 md:h-9 w-auto object-contain smooth group-hover:opacity-80">
+                <span class="text-[11px] md:text-sm font-black tracking-widest uppercase mt-0.5 text-white">Viaje Interior</span>
             </a>
             
-            <nav class="flex gap-4 sm:gap-8 text-[10px] sm:text-[11px] font-bold tracking-[0.15em] uppercase">
+            <!-- 2. Pestañas (Abajo en móvil, Centro en PC) -->
+            <nav class="flex gap-5 sm:gap-8 text-[9px] sm:text-[11px] font-bold tracking-[0.15em] uppercase order-3 md:order-2 w-full md:w-auto justify-center pt-2 md:pt-0 border-t border-white/5 md:border-transparent">
                 <a href="#podcast" onclick="switchCategory('all')" class="text-gray-400 hover:text-white smooth py-1">Podcast</a>
                 <button onclick="switchCategory('ropa')" id="tab-ropa" class="text-white border-b-2 border-white pb-1 smooth uppercase font-bold tracking-[0.15em]">Piezas</button>
                 <button onclick="switchCategory('cafe')" id="tab-cafe" class="text-gray-400 hover:text-white pb-1 smooth uppercase font-bold tracking-[0.15em] flex items-center gap-1.5"><i class="fa-solid fa-mug-hot text-[10px] text-amber-500"></i> Café</button>
             </nav>
 
-            <button onclick="toggleCart()" class="relative p-2 flex items-center justify-center bounce-click group bg-white/10 hover:bg-white/20 rounded-full h-10 w-10 smooth border border-white/10 shadow-inner">
-                <i class="fa-solid fa-bag-shopping text-sm text-white"></i>
-                <span id="cart-badge" class="absolute -top-1 -right-1 bg-white text-black text-[10px] h-4 w-4 flex items-center justify-center font-black rounded-full shadow-lg">0</span>
+            <!-- 3. Carrito (Derecha en móvil, Derecha en PC) -->
+            <button onclick="toggleCart()" class="relative p-2 flex items-center justify-center bounce-click group bg-white/10 hover:bg-white/20 rounded-full h-8 w-8 md:h-10 md:w-10 smooth border border-white/10 shadow-inner order-2 md:order-3 shrink-0">
+                <i class="fa-solid fa-bag-shopping text-xs md:text-sm text-white"></i>
+                <span id="cart-badge" class="absolute -top-1 -right-1 bg-white text-black text-[9px] md:text-[10px] h-4 w-4 flex items-center justify-center font-black rounded-full shadow-lg">0</span>
             </button>
+            
         </div>
     </header>
 
