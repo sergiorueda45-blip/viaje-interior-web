@@ -262,48 +262,80 @@
         </div>
     </div>
 
-    <!-- MODAL BESPOKE (CONCIERGE) -->
-    <div id="bespoke-modal" class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-[80] hidden flex-col items-center justify-center smooth opacity-0 transition-all duration-300">
+    <!-- MODAL BESPOKE (CONCIERGE PRO VISUAL) -->
+    <div id="bespoke-modal" class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-[80] hidden flex-col items-center justify-center smooth opacity-0 transition-all duration-300 p-4 overflow-y-auto">
         <button onclick="closeBespokeModal()" class="absolute top-6 right-6 bg-white/10 hover:bg-white/20 text-white rounded-full w-10 h-10 flex items-center justify-center smooth border border-white/10 shadow-xl z-[90] bounce-click">
             <i class="fa-solid fa-xmark"></i>
         </button>
         
-        <div class="bg-vi-dark/80 border border-vi-glass-border p-6 md:p-10 rounded-[2rem] w-[90%] max-w-md shadow-2xl relative overflow-hidden">
-            <h3 class="font-display font-black text-3xl uppercase tracking-tighter text-white mb-2 leading-none">Servicio<br>Bespoke</h3>
-            <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-6 font-medium">Confección a medida. Sube tu diseño y nosotros lo adaptamos.</p>
+        <div class="bg-vi-dark/90 border border-vi-glass-border p-5 md:p-8 rounded-[2rem] w-full max-w-lg shadow-2xl relative my-auto">
+            <div class="flex justify-between items-end mb-4">
+                <div>
+                    <h3 class="font-display font-black text-2xl md:text-3xl uppercase tracking-tighter text-white leading-none">Pieza Bespoke</h3>
+                    <p class="text-[9px] text-gray-400 uppercase tracking-widest font-medium mt-1">Confección y estampado bajo especificación.</p>
+                </div>
+            </div>
+
+            <!-- LIENZO DE PREVISUALIZACIÓN EN VIVO (MOCKUP 2D) -->
+            <div id="bespoke-preview-box" class="w-full h-48 md:h-56 rounded-2xl mb-5 relative overflow-hidden flex flex-col items-center justify-center border border-white/15 shadow-inner transition-colors duration-500 bg-[#0d0d0d]">
+                <div class="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 z-20">
+                    <span id="preview-placement-label" class="text-[9px] font-black tracking-widest uppercase text-white"><i class="fa-solid fa-shirt"></i> FRENTE</span>
+                </div>
+                
+                <!-- Silueta / Guía de estampado -->
+                <div class="relative w-32 h-32 md:w-40 md:h-40 border border-dashed border-white/20 rounded-lg flex items-center justify-center p-2 z-10">
+                    <span id="preview-placeholder-text" class="text-[9px] text-gray-500 font-bold uppercase tracking-widest text-center select-none">Área de Impresión<br>(Sube tu arte)</span>
+                    <img id="bespoke-preview-img" src="" class="max-w-full max-h-full object-contain hidden drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]">
+                </div>
+                
+                <div class="absolute bottom-2 right-3 text-[8px] text-gray-500 uppercase tracking-widest font-semibold z-20">Simulación Visual de Color</div>
+            </div>
             
-            <div class="space-y-4">
+            <div class="space-y-3.5">
+                <!-- SELECTOR DE POSICIÓN (FRENTE / ESPALDA) -->
                 <div>
-                    <label class="text-[9px] font-bold text-gray-500 uppercase tracking-widest block mb-2">Color Base Oficial</label>
-                    <select id="bespoke-color" class="w-full bg-black/50 border border-white/10 text-white px-4 py-3 rounded-xl outline-none focus:border-white/40 smooth text-xs font-bold uppercase tracking-widest appearance-none">
-                        <option value="Negro Profundo">Negro Profundo</option>
-                        <option value="Blanco Hueso">Blanco Hueso (Off-White)</option>
-                        <option value="Gris Concreto">Gris Concreto</option>
-                        <option value="Arena">Arena (Taupe)</option>
-                    </select>
-                </div>
-                
-                <div>
-                    <label class="text-[9px] font-bold text-gray-500 uppercase tracking-widest block mb-2">Talla</label>
-                    <select id="bespoke-size" class="w-full bg-black/50 border border-white/10 text-white px-4 py-3 rounded-xl outline-none focus:border-white/40 smooth text-xs font-bold uppercase tracking-widest appearance-none">
-                        <option value="S">S</option>
-                        <option value="M">M</option>
-                        <option value="L">L</option>
-                        <option value="XL">XL</option>
-                    </select>
-                </div>
-                
-                <div>
-                    <label class="text-[9px] font-bold text-gray-500 uppercase tracking-widest block mb-2">Tu Arte / Logo</label>
-                    <div class="relative bg-black/50 border border-white/10 border-dashed rounded-xl p-4 text-center hover:border-white/40 smooth cursor-pointer">
-                        <input type="file" id="bespoke-file" accept="image/png, image/jpeg, image/webp" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="handleBespokeFile(event)">
-                        <i class="fa-solid fa-cloud-arrow-up text-xl text-gray-400 mb-2"></i>
-                        <p id="bespoke-filename" class="text-[10px] font-bold text-white uppercase tracking-widest truncate">Haz clic para subir imagen</p>
+                    <label class="text-[9px] font-bold text-gray-400 uppercase tracking-widest block mb-1.5">Posición del Estampado</label>
+                    <div class="grid grid-cols-2 gap-2 bg-black/60 p-1.5 rounded-xl border border-white/10">
+                        <button type="button" id="btn-place-frente" onclick="changeBespokePlacement('Frente')" class="py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest smooth bg-white text-black shadow-md">Frente</button>
+                        <button type="button" id="btn-place-espalda" onclick="changeBespokePlacement('Espalda')" class="py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest smooth text-gray-400 hover:text-white">Espalda</button>
                     </div>
                 </div>
 
-                <button onclick="addBespokeToCart()" class="bounce-click w-full bg-white text-black font-black py-4 mt-4 rounded-xl text-[11px] uppercase tracking-[0.15em] hover:bg-gray-200 smooth shadow-[0_10px_30px_rgba(255,255,255,0.15)] flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-plus"></i> Añadir a la Orden
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- COLOR -->
+                    <div>
+                        <label class="text-[9px] font-bold text-gray-400 uppercase tracking-widest block mb-1.5">Color Oficial</label>
+                        <select id="bespoke-color" onchange="changeBespokeColor(this.value)" class="w-full bg-black/60 border border-white/10 text-white px-3.5 py-3 rounded-xl outline-none focus:border-white/40 smooth text-xs font-bold uppercase tracking-widest">
+                            <option value="Negro Profundo">Negro Profundo</option>
+                            <option value="Blanco Hueso">Blanco Hueso</option>
+                            <option value="Gris Concreto">Gris Concreto</option>
+                            <option value="Arena">Arena (Taupe)</option>
+                        </select>
+                    </div>
+                    <!-- TALLA -->
+                    <div>
+                        <label class="text-[9px] font-bold text-gray-400 uppercase tracking-widest block mb-1.5">Talla</label>
+                        <select id="bespoke-size" class="w-full bg-black/60 border border-white/10 text-white px-3.5 py-3 rounded-xl outline-none focus:border-white/40 smooth text-xs font-bold uppercase tracking-widest">
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- SUBIDA DE ARCHIVO -->
+                <div>
+                    <label class="text-[9px] font-bold text-gray-400 uppercase tracking-widest block mb-1.5">Arte / Logo de Alta Calidad</label>
+                    <div class="relative bg-black/60 border border-white/10 border-dashed rounded-xl p-3.5 text-center hover:border-white/40 smooth cursor-pointer group">
+                        <input type="file" id="bespoke-file" accept="image/png, image/jpeg, image/webp" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="handleBespokeFile(event)">
+                        <i class="fa-solid fa-cloud-arrow-up text-lg text-gray-400 group-hover:text-white smooth mb-1"></i>
+                        <p id="bespoke-filename" class="text-[9px] font-bold text-gray-300 uppercase tracking-widest truncate">Haz clic aquí para cargar imagen</p>
+                    </div>
+                </div>
+
+                <button onclick="addBespokeToCart()" class="bounce-click w-full bg-white text-black font-black py-4 mt-2 rounded-xl text-[11px] uppercase tracking-[0.15em] hover:bg-gray-200 smooth shadow-[0_10px_30px_rgba(255,255,255,0.15)] flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-plus"></i> Confirmar y Añadir
                 </button>
             </div>
         </div>
@@ -463,17 +495,34 @@
         }
 
         // ============================================
-        // LÓGICA SERVICIO BESPOKE (CONCIERGE)
+        // LÓGICA SERVICIO BESPOKE (CONCIERGE PRO VISUAL)
         // ============================================
+        let bespokePlacement = 'Frente';
+        
+        const BESPOKE_HEX_MAP = {
+            'Negro Profundo': '#0d0d0d',
+            'Blanco Hueso': '#e8e6df',
+            'Gris Concreto': '#383838',
+            'Arena': '#b5a48b'
+        };
+
         function openBespokeModal() {
             const modal = document.getElementById('bespoke-modal');
             modal.classList.remove('hidden');
             setTimeout(() => modal.classList.remove('opacity-0'), 10);
             document.body.style.overflow = 'hidden';
+            
+            // Reset de campos y estado visual
             document.getElementById('bespoke-file').value = '';
-            document.getElementById('bespoke-filename').innerText = 'Haz clic para subir imagen';
+            document.getElementById('bespoke-filename').innerText = 'Haz clic aquí para cargar imagen';
+            document.getElementById('bespoke-preview-img').src = '';
+            document.getElementById('bespoke-preview-img').classList.add('hidden');
+            document.getElementById('preview-placeholder-text').classList.remove('hidden');
+            
             bespokeBase64 = null;
             bespokeFileName = null;
+            changeBespokePlacement('Frente');
+            changeBespokeColor(document.getElementById('bespoke-color').value);
         }
 
         function closeBespokeModal() {
@@ -485,10 +534,36 @@
             }, 300);
         }
 
+        function changeBespokeColor(colorName) {
+            const previewBox = document.getElementById('bespoke-preview-box');
+            const hex = BESPOKE_HEX_MAP[colorName] || '#0d0d0d';
+            previewBox.style.backgroundColor = hex;
+            
+            // Ajuste de contraste para el borde del área de impresión según el color
+            const isLight = colorName === 'Blanco Hueso' || colorName === 'Arena';
+            previewBox.style.color = isLight ? '#000000' : '#ffffff';
+        }
+
+        function changeBespokePlacement(place) {
+            bespokePlacement = place;
+            document.getElementById('preview-placement-label').innerHTML = `<i class="fa-solid fa-shirt"></i> ${place.toUpperCase()}`;
+            
+            const btnFrente = document.getElementById('btn-place-frente');
+            const btnEspalda = document.getElementById('btn-place-espalda');
+            
+            if (place === 'Frente') {
+                btnFrente.className = "py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest smooth bg-white text-black shadow-md";
+                btnEspalda.className = "py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest smooth text-gray-400 hover:text-white";
+            } else {
+                btnEspalda.className = "py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest smooth bg-white text-black shadow-md";
+                btnFrente.className = "py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest smooth text-gray-400 hover:text-white";
+            }
+        }
+
         function handleBespokeFile(event) {
             const file = event.target.files[0];
             if (!file) return;
-            document.getElementById('bespoke-filename').innerText = 'Procesando...';
+            document.getElementById('bespoke-filename').innerText = 'Procesando en alta resolución...';
 
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -514,7 +589,14 @@
 
                     bespokeBase64 = canvas.toDataURL('image/webp', 0.85);
                     bespokeFileName = file.name;
-                    document.getElementById('bespoke-filename').innerHTML = `<span class="text-green-400">✓ ${file.name} (Lista)</span>`;
+                    
+                    // Mostrar preview en el lienzo 2D
+                    const previewImg = document.getElementById('bespoke-preview-img');
+                    previewImg.src = bespokeBase64;
+                    previewImg.classList.remove('hidden');
+                    document.getElementById('preview-placeholder-text').classList.add('hidden');
+                    
+                    document.getElementById('bespoke-filename').innerHTML = `<span class="text-green-400 font-black">✓ ${file.name} (Listo)</span>`;
                 };
                 img.src = e.target.result;
             };
@@ -523,7 +605,7 @@
 
         function addBespokeToCart() {
             if (!bespokeBase64) {
-                showToast('Debes subir un diseño primero');
+                showToast('Debes subir tu diseño primero');
                 return;
             }
             const color = document.getElementById('bespoke-color').value;
@@ -531,10 +613,11 @@
             
             const bespokeItem = {
                 id: 'BESPOKE-' + Date.now(),
-                name: `Pieza Custom (${color})`,
-                price: 0, // Se cotiza por WhatsApp
+                name: `Pieza Custom (${color} - ${bespokePlacement})`,
+                price: 0, 
                 size: size,
                 selectedColor: color,
+                placement: bespokePlacement,
                 img: bespokeBase64, 
                 qty: 1,
                 isBespoke: true
