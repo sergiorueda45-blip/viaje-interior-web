@@ -495,9 +495,15 @@
         }
 
         // ============================================
-        // LÓGICA SERVICIO BESPOKE (CONCIERGE PRO VISUAL)
+        // LÓGICA SERVICIO BESPOKE (ARQUITECTURA DUAL PRO)
         // ============================================
         let bespokePlacement = 'Frente';
+        
+        // Memoria independiente para cada lado de la prenda
+        let bespokeState = {
+            Frente: { base64: null, fileName: null, imgObj: null },
+            Espalda: { base64: null, fileName: null, imgObj: null }
+        };
         
         const BESPOKE_HEX_MAP = {
             'Negro Profundo': '#0d0d0d',
@@ -512,15 +518,12 @@
             setTimeout(() => modal.classList.remove('opacity-0'), 10);
             document.body.style.overflow = 'hidden';
             
-            // Reset de campos y estado visual
-            document.getElementById('bespoke-file').value = '';
-            document.getElementById('bespoke-filename').innerText = 'Haz clic aquí para cargar imagen';
-            document.getElementById('bespoke-preview-img').src = '';
-            document.getElementById('bespoke-preview-img').classList.add('hidden');
-            document.getElementById('preview-placeholder-text').classList.remove('hidden');
+            // Reset total de memoria al abrir
+            bespokeState = {
+                Frente: { base64: null, fileName: null, imgObj: null },
+                Espalda: { base64: null, fileName: null, imgObj: null }
+            };
             
-            bespokeBase64 = null;
-            bespokeFileName = null;
             changeBespokePlacement('Frente');
             changeBespokeColor(document.getElementById('bespoke-color').value);
         }
@@ -539,7 +542,6 @@
             const hex = BESPOKE_HEX_MAP[colorName] || '#0d0d0d';
             previewBox.style.backgroundColor = hex;
             
-            // Ajuste de contraste para el borde del área de impresión según el color
             const isLight = colorName === 'Blanco Hueso' || colorName === 'Arena';
             previewBox.style.color = isLight ? '#000000' : '#ffffff';
         }
@@ -557,6 +559,27 @@
             } else {
                 btnEspalda.className = "py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest smooth bg-white text-black shadow-md";
                 btnFrente.className = "py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest smooth text-gray-400 hover:text-white";
+            }
+
+            // ACTUALIZACIÓN DINÁMICA DE LIENZO SEGÚN EL LADO SELECCIONADO
+            const currentState = bespokeState[place];
+            const previewImg = document.getElementById('bespoke-preview-img');
+            const placeholder = document.getElementById('preview-placeholder-text');
+            const filenameLabel = document.getElementById('bespoke-filename');
+            const fileInput = document.getElementById('bespoke-file');
+
+            fileInput.value = ''; // Permite volver a seleccionar el mismo archivo si es necesario
+
+            if (currentState && currentState.base64) {
+                previewImg.src = currentState.base64;
+                previewImg.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+                filenameLabel.innerHTML = `<span class="text-green-400 font-black">✓ ${currentState.fileName} (${place})</span>`;
+            } else {
+                previewImg.src = '';
+                previewImg.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+                filenameLabel.innerText = `Cargar imagen para ${place.toLowerCase()}`;
             }
         }
 
@@ -587,16 +610,17 @@
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
 
-                    bespokeBase64 = canvas.toDataURL('image/webp', 0.85);
-                    bespokeFileName = file.name;
+                    const webpData = canvas.toDataURL('image/webp', 0.85);
                     
-                    // Mostrar preview en el lienzo 2D
-                    const previewImg = document.getElementById('bespoke-preview-img');
-                    previewImg.src = bespokeBase64;
-                    previewImg.classList.remove('hidden');
-                    document.getElementById('preview-placeholder-text').classList.add('hidden');
+                    // ALMACENAMIENTO EXACTO EN LA MEMORIA DEL LADO ACTIVO
+                    bespokeState[bespokePlacement] = {
+                        base64: webpData,
+                        fileName: file.name,
+                        imgObj: img
+                    };
                     
-                    document.getElementById('bespoke-filename').innerHTML = `<span class="text-green-400 font-black">✓ ${file.name} (Listo)</span>`;
+                    // Refrescar la UI del lado actual
+                    changeBespokePlacement(bespokePlacement);
                 };
                 img.src = e.target.result;
             };
@@ -604,21 +628,70 @@
         }
 
         function addBespokeToCart() {
-            if (!bespokeBase64) {
-                showToast('Debes subir tu diseño primero');
+            const hasFrente = !!bespokeState.Frente.base64;
+            const hasEspalda = !!bespokeState.Espalda.base64;
+
+            if (!hasFrente && !hasEspalda) {
+                showToast('Debes subir al menos un diseño');
                 return;
             }
+
             const color = document.getElementById('bespoke-color').value;
             const size = document.getElementById('bespoke-size').value;
             
+            let finalBase64 = null;
+            let finalFileName = null;
+            let placementText = '';
+
+            // MOTOR DE FUSIÓN INDUSTRIAL (STITCHING): Si diseñó ambos lados, crea un lienzo 2-en-1
+            if (hasFrente && hasEspalda) {
+                const compositeCanvas = document.createElement('canvas');
+                compositeCanvas.width = 4000;
+                compositeCanvas.height = 2200;
+                const ctx = compositeCanvas.getContext('2d');
+                
+                // Fondo oscuro técnico para hoja de producción
+                ctx.fillStyle = "#121212";
+                ctx.fillRect(0, 0, 4000, 2200);
+
+                // Guías y textos de taller
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "bold 90px sans-serif";
+                ctx.fillText("ESTAMPA: FRENTE", 150, 160);
+                ctx.fillText("ESTAMPA: ESPALDA", 2150, 160);
+
+                // Renderizar Frente
+                const imgF = bespokeState.Frente.imgObj;
+                const ratioF = Math.min(1700 / imgF.width, 1800 / imgF.height);
+                ctx.drawImage(imgF, 150, 250, imgF.width * ratioF, imgF.height * ratioF);
+
+                // Renderizar Espalda
+                const imgE = bespokeState.Espalda.imgObj;
+                const ratioE = Math.min(1700 / imgE.width, 1800 / imgE.height);
+                ctx.drawImage(imgE, 2150, 250, imgE.width * ratioE, imgE.height * ratioE);
+
+                finalBase64 = compositeCanvas.toDataURL('image/webp', 0.85);
+                finalFileName = `COMPLETO_${bespokeState.Frente.fileName}`;
+                placementText = 'Frente y Espalda';
+            } else if (hasFrente) {
+                finalBase64 = bespokeState.Frente.base64;
+                finalFileName = `FRENTE_${bespokeState.Frente.fileName}`;
+                placementText = 'Frente';
+            } else {
+                finalBase64 = bespokeState.Espalda.base64;
+                finalFileName = `ESPALDA_${bespokeState.Espalda.fileName}`;
+                placementText = 'Espalda';
+            }
+
             const bespokeItem = {
                 id: 'BESPOKE-' + Date.now(),
-                name: `Pieza Custom (${color} - ${bespokePlacement})`,
+                name: `Pieza Custom (${color} - ${placementText})`,
                 price: 0, 
                 size: size,
                 selectedColor: color,
-                placement: bespokePlacement,
-                img: bespokeBase64, 
+                placement: placementText,
+                img: finalBase64, 
+                fileName: finalFileName,
                 qty: 1,
                 isBespoke: true
             };
@@ -626,7 +699,7 @@
             cart.push(bespokeItem);
             updateCartUI();
             closeBespokeModal();
-            showToast('Pieza Custom añadida');
+            showToast(`Custom (${placementText}) añadido`);
             
             const badge = document.getElementById('cart-badge');
             badge.classList.add('scale-150');
@@ -985,7 +1058,7 @@
             try {
                 // Separar arte si existe en el carrito
                 const bespokeItem = cart.find(item => item.isBespoke);
-                const customArtData = bespokeItem ? { base64: bespokeItem.img, fileName: bespokeFileName || 'Arte_Custom.webp' } : null;
+                const customArtData = bespokeItem ? { base64: bespokeItem.img, fileName: bespokeItem.fileName || 'Arte_Custom.webp' } : null;
 
                 const payload = { 
                     buyerName: name, 
