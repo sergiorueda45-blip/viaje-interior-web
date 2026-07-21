@@ -433,7 +433,7 @@
             }
         }
 
-        const API_URL = 'https://script.google.com/macros/s/AKfycbxNZ2vORzS8pJielaD_0m0ARjZJEiuwvR3zfDg7_7mfH3FcpjRtZ37VxECrw2PFXt0QeA/exec';
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyghBRk36beuenPVdKFMb2DbjczP-wJM0FnfjzmZPp71t7uo-mPzgy6r4pmaz1bTUrGbA/exec';
         
         document.addEventListener('DOMContentLoaded', () => {
             loadInventory();
@@ -639,48 +639,20 @@
             const color = document.getElementById('bespoke-color').value;
             const size = document.getElementById('bespoke-size').value;
             
-            let finalBase64 = null;
-            let finalFileName = null;
             let placementText = '';
+            let artsArray = [];
 
-            // MOTOR DE FUSIÓN INDUSTRIAL (STITCHING): Si diseñó ambos lados, crea un lienzo 2-en-1
+            // Empacamos las imágenes separadas en su máxima resolución
             if (hasFrente && hasEspalda) {
-                const compositeCanvas = document.createElement('canvas');
-                compositeCanvas.width = 4000;
-                compositeCanvas.height = 2200;
-                const ctx = compositeCanvas.getContext('2d');
-                
-                // Fondo oscuro técnico para hoja de producción
-                ctx.fillStyle = "#121212";
-                ctx.fillRect(0, 0, 4000, 2200);
-
-                // Guías y textos de taller
-                ctx.fillStyle = "#ffffff";
-                ctx.font = "bold 90px sans-serif";
-                ctx.fillText("ESTAMPA: FRENTE", 150, 160);
-                ctx.fillText("ESTAMPA: ESPALDA", 2150, 160);
-
-                // Renderizar Frente
-                const imgF = bespokeState.Frente.imgObj;
-                const ratioF = Math.min(1700 / imgF.width, 1800 / imgF.height);
-                ctx.drawImage(imgF, 150, 250, imgF.width * ratioF, imgF.height * ratioF);
-
-                // Renderizar Espalda
-                const imgE = bespokeState.Espalda.imgObj;
-                const ratioE = Math.min(1700 / imgE.width, 1800 / imgE.height);
-                ctx.drawImage(imgE, 2150, 250, imgE.width * ratioE, imgE.height * ratioE);
-
-                finalBase64 = compositeCanvas.toDataURL('image/webp', 0.85);
-                finalFileName = `COMPLETO_${bespokeState.Frente.fileName}`;
                 placementText = 'Frente y Espalda';
+                artsArray.push({ base64: bespokeState.Frente.base64, fileName: bespokeState.Frente.fileName, placement: 'Frente' });
+                artsArray.push({ base64: bespokeState.Espalda.base64, fileName: bespokeState.Espalda.fileName, placement: 'Espalda' });
             } else if (hasFrente) {
-                finalBase64 = bespokeState.Frente.base64;
-                finalFileName = `FRENTE_${bespokeState.Frente.fileName}`;
                 placementText = 'Frente';
+                artsArray.push({ base64: bespokeState.Frente.base64, fileName: bespokeState.Frente.fileName, placement: 'Frente' });
             } else {
-                finalBase64 = bespokeState.Espalda.base64;
-                finalFileName = `ESPALDA_${bespokeState.Espalda.fileName}`;
                 placementText = 'Espalda';
+                artsArray.push({ base64: bespokeState.Espalda.base64, fileName: bespokeState.Espalda.fileName, placement: 'Espalda' });
             }
 
             const bespokeItem = {
@@ -690,8 +662,8 @@
                 size: size,
                 selectedColor: color,
                 placement: placementText,
-                img: finalBase64, 
-                fileName: finalFileName,
+                img: artsArray[0].base64, // Solo para la miniatura UI
+                arts: artsArray, // Aquí viajan los datos reales para maquilar
                 qty: 1,
                 isBespoke: true
             };
@@ -1056,14 +1028,18 @@
             btn.disabled = true;
 
             try {
-                // Separar arte si existe en el carrito
-                const bespokeItem = cart.find(item => item.isBespoke);
-                const customArtData = bespokeItem ? { base64: bespokeItem.img, fileName: bespokeItem.fileName || 'Arte_Custom.webp' } : null;
+                // Extraer TODAS las artes separadas del carrito para el servidor
+                let allCustomArts = [];
+                cart.forEach(item => {
+                    if (item.isBespoke && item.arts) {
+                        allCustomArts = allCustomArts.concat(item.arts);
+                    }
+                });
 
                 const payload = { 
                     buyerName: name, 
                     cart: cart,
-                    customArt: customArtData
+                    customArts: allCustomArts
                 };
 
                 const response = await fetch(API_URL, {
@@ -1097,7 +1073,16 @@
                     if (hasBespoke) {
                         message += `(Nota: Las piezas Custom se cotizan según diseño)%0A`;
                     }
-                    message += `(Sin envío incluido)%0A%0A`;
+                    
+                    // INYECCIÓN DE LINKS DE DRIVE
+                    if (result.driveUrls && result.driveUrls.length > 0) {
+                        message += `%0A*ARCHIVOS PARA MAQUILA:*%0A`;
+                        result.driveUrls.forEach(file => {
+                            message += `📎 ${file.placement}: ${file.url}%0A`;
+                        });
+                    }
+
+                    message += `%0A(Sin envío incluido)%0A%0A`;
                     message += `Quedo atento para coordinar pago y entrega.`;
 
                     cart = [];
@@ -1106,9 +1091,8 @@
                     toggleCart();
                     showToast('Orden Registrada');
                     
-                    setTimeout(() => {
-                        window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${message}`, '_blank');
-                    }, 800);
+                    // SOLUCIÓN ANTI-BLOQUEO: Salto directo en la misma ventana
+                    window.location.href = `https://api.whatsapp.com/send?phone=${phone}&text=${message}`;
 
                 } else {
                     showToast('Error en el servidor');
