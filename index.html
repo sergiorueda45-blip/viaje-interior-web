@@ -75,11 +75,11 @@
                 </div>
             </a>
             
-            <!-- 2. Pestañas -->
-            <nav class="flex gap-4 md:gap-8 text-[9px] md:text-[11px] font-bold tracking-[0.1em] md:tracking-[0.15em] uppercase items-center pt-0.5">
-                <a href="#podcast" onclick="switchCategory('podcast')" id="tab-podcast" class="text-gray-400 hover:text-white pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em]">Podcast</a>
-                <button onclick="switchCategory('ropa')" id="tab-ropa" class="text-white border-b-2 border-white pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em]">Piezas</button>
-                <button onclick="switchCategory('cafe')" id="tab-cafe" class="text-gray-400 hover:text-white pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em] flex items-center gap-1"><i class="fa-solid fa-mug-hot text-[9px] text-amber-500"></i> Café</button>
+            <!-- 2. Pestañas (Ascensores Rápidos) -->
+            <nav id="main-nav" class="flex gap-4 md:gap-8 text-[9px] md:text-[11px] font-bold tracking-[0.1em] md:tracking-[0.15em] uppercase items-center pt-0.5">
+                <a href="#podcast" id="nav-podcast" class="text-gray-400 hover:text-white pb-1 smooth uppercase tracking-[0.1em] md:tracking-[0.15em] bounce-click">Podcast</a>
+                <a href="#coleccion-ropa" id="nav-ropa" class="text-gray-400 hover:text-white pb-1 smooth uppercase tracking-[0.1em] md:tracking-[0.15em] bounce-click">Piezas</a>
+                <a href="#coleccion-cafe" id="nav-cafe" class="text-gray-400 hover:text-white pb-1 smooth uppercase tracking-[0.1em] md:tracking-[0.15em] flex items-center gap-1 bounce-click"><i class="fa-solid fa-mug-hot text-[9px] text-amber-500"></i> Café</a>
             </nav>
 
             <!-- 3. Carrito -->
@@ -157,10 +157,10 @@
             </div>
         </section>
 
-        <!-- SECCIÓN TIENDA / GRID OPTIMIZADO -->
-        <section id="capsula" class="py-24 md:py-32 px-4 sm:px-6 relative">
+        <!-- SECCIÓN ROPA -->
+        <section id="coleccion-ropa" class="pt-24 md:pt-32 px-4 sm:px-6 relative">
             <div class="max-w-7xl mx-auto">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 px-2">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 px-2 animate-fade-in">
                     <div>
                         <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-3 pl-1">Colección Inicial — Drop 001</span>
                         <h3 class="font-display font-black text-5xl md:text-6xl uppercase tracking-tighter leading-[1.1] text-white">
@@ -176,29 +176,33 @@
                     </p>
                 </div>
                 
-                <!-- GRID RESPONSIVO: 2 en móvil, 3 en tablet, 4 en PC, 5 en Ultra Wide -->
-                <!-- GRID RESPONSIVO: 2 en móvil, 3 en tablet, 4 en PC, 5 en Ultra Wide -->
-                <!-- GANCHO DE CAFÉ (Teaser Edición Limitada) -->
-                <div id="cafe-teaser" class="hidden mb-12 bg-gradient-to-r from-[#1a1514] to-[#0d0b0a] border border-amber-900/30 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 animate-fade-in">
+                <div id="grid-ropa" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 relative z-10 w-full">
+                    <!-- Productos Ropa Inyectados -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN CAFÉ -->
+        <section id="coleccion-cafe" class="py-24 md:py-32 px-4 sm:px-6 relative border-t border-white/5 mt-20">
+            <div class="max-w-7xl mx-auto">
+                <div class="mb-12 bg-gradient-to-r from-[#1a1514] to-[#0d0b0a] border border-amber-900/30 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 animate-fade-in">
                     <div class="absolute -right-10 -bottom-10 w-80 h-80 bg-amber-600/10 rounded-full blur-[80px] pointer-events-none"></div>
-                    <div class="max-w-xl relative z-10 text-left">
-                        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[9px] font-black tracking-[0.2em] uppercase mb-4">
-                            <i class="fa-solid fa-fire"></i> Drop 002 — En Tueste
+                    <div class="max-w-2xl relative z-10 text-left">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[9px] font-black tracking-[0.2em] uppercase mb-5">
+                            <i class="fa-solid fa-fire"></i> Drop 002 — Origen Colombiano
                         </div>
-                        <h4 class="font-display font-black text-3xl md:text-5xl uppercase tracking-tighter text-white mb-4 leading-none">El Ruido Se<br>Apaga Aquí.</h4>
-                        <p class="text-gray-400 text-xs sm:text-sm font-medium tracking-[0.08em] leading-relaxed">
-                            Café de especialidad de origen colombiano. No es un estimulante para acelerar, es un ritual para detenerse. Notas de cata seleccionadas para mentes críticas.
+                        <h4 class="font-display font-black text-4xl md:text-6xl uppercase tracking-tighter text-white mb-5 leading-none">Fase<br>Cero.</h4>
+                        <p class="text-gray-400 text-xs sm:text-sm font-medium tracking-[0.12em] leading-relaxed uppercase border-l-2 border-amber-500/30 pl-4 mb-6">
+                            El mundo te exige velocidad para que no pienses. Nosotros te entregamos un botón de reinicio. No es cafeína para acelerar, es un ancla para aislar el ruido exterior. El estado base antes de que el ego actúe.
                         </p>
-                    </div>
-                    <div class="relative z-10 w-full md:w-auto shrink-0">
-                        <a href="https://api.whatsapp.com/send?phone=573136761168&text=Hola!%20Quiero%20entrar%20a%20la%20lista%20prioritaria%20para%20el%20Drop%20de%20Caf%C3%A9%20de%20Especialidad." target="_blank" class="bounce-click w-full md:w-auto bg-gradient-to-r from-amber-600 to-amber-700 text-white font-black py-4 px-8 rounded-2xl text-[11px] uppercase tracking-[0.15em] hover:brightness-110 smooth shadow-[0_10px_30px_rgba(217,119,6,0.2)] flex items-center justify-center gap-3 border border-amber-500/30">
+                        <a href="https://api.whatsapp.com/send?phone=573136761168&text=Hola!%20Quiero%20entrar%20a%20la%20lista%20prioritaria%20para%20la%20Fase%20Cero%20(Caf%C3%A9)." target="_blank" class="bounce-click inline-flex bg-gradient-to-r from-amber-600 to-amber-700 text-white font-black py-3.5 px-6 rounded-2xl text-[10px] sm:text-[11px] uppercase tracking-[0.15em] hover:brightness-110 smooth shadow-[0_10px_30px_rgba(217,119,6,0.2)] items-center justify-center gap-3 border border-amber-500/30">
                             <i class="fa-brands fa-whatsapp text-lg"></i> Lista Prioritaria
                         </a>
                     </div>
                 </div>
 
-                <div id="grid-productos" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 relative z-10 w-full">
-                    <!-- Productos / Skeleton Inyectados por JS -->
+                <div id="grid-cafe" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 relative z-10 w-full">
+                    <!-- Productos Café Inyectados -->
                 </div>
             </div>
         </section>
@@ -398,49 +402,72 @@
         let productsData = []; 
         let currentLightboxImages = [];
         let currentImageIndex = 0;
-        let currentCategory = 'ropa'; 
-        
         // Variables para Bespoke / Maquila
         let bespokeBase64 = null;
         let bespokeFileName = null;
 
-        function switchCategory(category) {
-            const tabRopa = document.getElementById('tab-ropa');
-            const tabCafe = document.getElementById('tab-cafe');
-            const tabPodcast = document.getElementById('tab-podcast');
-            const teaser = document.getElementById('cafe-teaser');
-
-            // 1. Apagar todas las pestañas (Gris)
-            tabRopa.className = "text-gray-400 hover:text-white pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em]";
-            tabCafe.className = "text-gray-400 hover:text-white pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em] flex items-center gap-1";
-            tabPodcast.className = "text-gray-400 hover:text-white pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em]";
-
-            // 2. Encender la pestaña seleccionada y ejecutar su acción
-            if (category === 'ropa') {
-                currentCategory = 'ropa';
-                tabRopa.className = "text-white border-b-2 border-white pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em]";
-                if(teaser) teaser.classList.add('hidden');
-                renderProducts(productsData);
-                document.getElementById('capsula').scrollIntoView({ behavior: 'smooth' });
-                
-            } else if (category === 'cafe') {
-                currentCategory = 'cafe';
-                tabCafe.className = "text-amber-400 border-b-2 border-amber-400 pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em] flex items-center gap-1";
-                if(teaser) teaser.classList.remove('hidden');
-                renderProducts(productsData);
-                document.getElementById('capsula').scrollIntoView({ behavior: 'smooth' });
-                
-            } else if (category === 'podcast') {
-                tabPodcast.className = "text-white border-b-2 border-white pb-1 smooth uppercase font-bold tracking-[0.1em] md:tracking-[0.15em]";
-                // No re-renderizamos la tienda, solo iluminamos la pestaña del podcast (el scroll lo hace el href del botón)
-            }
-        }
-
         const API_URL = 'https://script.google.com/macros/s/AKfycbyghBRk36beuenPVdKFMb2DbjczP-wJM0FnfjzmZPp71t7uo-mPzgy6r4pmaz1bTUrGbA/exec';
         
         document.addEventListener('DOMContentLoaded', () => {
+            // 1. Restaurar memoria del carrito (si existe)
+            const savedCart = localStorage.getItem('vi_cart_memory');
+            if (savedCart) {
+                try {
+                    cart = JSON.parse(savedCart);
+                    updateCartUI(); // Restaura el panel lateral y el globito rojo
+                } catch(e) {
+                    console.error("Error restaurando carrito", e);
+                }
+            }
+            
+            // 2. Cargar productos y espía
             loadInventory();
+            setupScrollSpy();
         });
+
+        // ============================================
+        // ESPÍA DE SCROLL (ACTUALIZA CABECERA DINÁMICAMENTE)
+        // ============================================
+        function setupScrollSpy() {
+            const sections = [
+                { id: 'podcast', navId: 'nav-podcast', activeClass: 'text-white border-b-2 border-white' },
+                { id: 'coleccion-ropa', navId: 'nav-ropa', activeClass: 'text-white border-b-2 border-white' },
+                { id: 'coleccion-cafe', navId: 'nav-cafe', activeClass: 'text-amber-400 border-b-2 border-amber-400' }
+            ];
+
+            // Lee el centro de la pantalla para saber qué sección estás viendo
+            const observerOptions = { root: null, rootMargin: '-30% 0px -50% 0px', threshold: 0 };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // 1. Limpia todos los botones (los vuelve gris)
+                        sections.forEach(sec => {
+                            const navItem = document.getElementById(sec.navId);
+                            if(navItem) {
+                                navItem.className = navItem.className.replace(/text-white|border-b-2|border-white|text-amber-400|border-amber-400/g, '').trim();
+                                navItem.classList.add('text-gray-400');
+                            }
+                        });
+
+                        // 2. Ilumina solo el botón de la sección actual
+                        const activeSec = sections.find(s => s.id === entry.target.id);
+                        if (activeSec) {
+                            const activeNavItem = document.getElementById(activeSec.navId);
+                            if(activeNavItem) {
+                                activeNavItem.classList.remove('text-gray-400');
+                                activeNavItem.className += ` ${activeSec.activeClass}`;
+                            }
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(sec => {
+                const el = document.getElementById(sec.id);
+                if(el) observer.observe(el);
+            });
+        }
 
         // ============================================
         // LOGICA DE GALERÍA (LIGHTBOX)
@@ -685,146 +712,96 @@
         // CARGA DE INVENTARIO Y UI
         // ============================================
         async function loadInventory() {
-            const grid = document.getElementById('grid-productos');
+            const gridRopa = document.getElementById('grid-ropa');
+            const gridCafe = document.getElementById('grid-cafe');
             
-            // SKELETON LIGERO (Sin backdrop-blur, color sólido oscuro para no saturar GPU)
-            const skeletonHTML = Array(10).fill().map(() => `
+            const skeletonHTML = Array(5).fill().map(() => `
                 <div class="bg-[#121212] border border-white/5 rounded-[1.5rem] p-3 sm:p-5 shadow-xl animate-pulse">
                     <div class="aspect-[4/5] bg-white/5 rounded-2xl mb-4"></div>
                     <div class="h-4 bg-white/10 rounded-md w-3/4 mb-2"></div>
-                    <div class="h-3 bg-white/10 rounded-md w-1/4 mb-5"></div>
-                    <div class="flex flex-col gap-2">
-                        <div class="h-[40px] bg-white/5 rounded-xl w-full"></div>
+                    <div class="flex flex-col gap-2 mt-5">
                         <div class="h-[40px] bg-white/5 rounded-xl w-full"></div>
                     </div>
                 </div>
             `).join('');
             
-            grid.innerHTML = skeletonHTML;
+            gridRopa.innerHTML = skeletonHTML;
+            gridCafe.innerHTML = skeletonHTML;
 
             try {
                 const response = await fetch(`${API_URL}?action=getInventory`);
                 const result = await response.json();
                 
                 if (result.success) {
-                    // BLINDAJE SENIOR: Parser inteligente para Cloudinary, saltos de línea y comas
                     productsData = result.data.map(p => {
                         let imgArray = [];
-                        
                         if (Array.isArray(p.img)) {
                             imgArray = p.img;
                         } else if (typeof p.img === 'string' && p.img.trim() !== '') {
-                            // Divide por comas, espacios o saltos de línea SOLO si le sigue un "http" o "https"
-                            // Esto evita romper URLs de Cloudinary que contienen comas internas (ej: w_500,h_500)
-                            imgArray = p.img
-                                .split(/(?:,|\n|\r|\s)+(?=https?:\/\/)/i)
-                                .map(url => url.trim())
-                                .filter(url => url.startsWith('http'));
+                            imgArray = p.img.split(/(?:,|\n|\r|\s)+(?=https?:\/\/)/i).map(url => url.trim()).filter(url => url.startsWith('http'));
                         }
-                        
                         if (!imgArray || imgArray.length === 0) {
                             imgArray = ['https://via.placeholder.com/400x500/121212/ffffff?text=Sin+Imagen'];
                         }
-                        
                         p.img = imgArray;
                         return p;
                     });
                     
-                    if (productsData.length === 0) {
-                        grid.innerHTML = `
-                            <div class="col-span-full py-20 flex flex-col items-center justify-center bg-vi-glass border border-vi-glass-border rounded-[2.5rem] text-center px-6 shadow-xl relative overflow-hidden backdrop-blur-md">
-                                <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-6 border border-white/10 shadow-inner">
-                                    <i class="fa-solid fa-hourglass-half text-2xl text-white"></i>
-                                </div>
-                                <h4 class="font-display font-black text-3xl sm:text-4xl text-white uppercase tracking-tighter mb-4 leading-none">Producción<br>Actual Agotada</h4>
-                                <p class="text-gray-400 text-[10px] sm:text-xs max-w-md mx-auto mb-8 tracking-[0.15em] leading-relaxed uppercase font-medium">
-                                    Nuestras cápsulas se producen en tirajes limitados. Asegura tu pieza para el próximo lanzamiento.
-                                </p>
-                                <a href="https://api.whatsapp.com/send?phone=573136761168&text=Hola!%20Vengo%20de%20la%20p%C3%A1gina.%20Quiero%20reservar%20mi%20cupo%20para%20el%20pr%C3%B3ximo%20drop." target="_blank" class="bounce-click bg-white text-black font-black py-4 px-8 text-[11px] uppercase tracking-[0.15em] rounded-full hover:bg-gray-200 smooth shadow-[0_10px_30px_rgba(255,255,255,0.15)] relative z-10 flex items-center gap-2">
-                                    <i class="fa-brands fa-whatsapp text-lg"></i> Reservar Cupo
-                                </a>
-                            </div>
-                        `;
-                    } else {
-                        renderProducts(productsData);
-                    }
+                    renderProducts(productsData);
                 }
             } catch (error) {
-                grid.innerHTML = '<p class="col-span-full text-center text-white py-10 bg-red-900/30 rounded-2xl font-bold">Error de conexión. Intenta recargar la página.</p>';
+                const errHTML = '<p class="col-span-full text-center text-white py-10 bg-red-900/30 rounded-2xl font-bold">Error de conexión. Recarga la página.</p>';
+                gridRopa.innerHTML = errHTML;
+                gridCafe.innerHTML = errHTML;
             }
         }
 
-        function renderProducts(products) {
-            const grid = document.getElementById('grid-productos');
-            
-            // Filtrar productos por la pestaña activa (si no tiene categoría en el Excel, asume 'ropa')
-            const filteredProducts = products.filter(p => {
-                const cat = p.categoria ? p.categoria.toString().toLowerCase().trim() : 'ropa';
-                return cat === currentCategory;
-            });
+        function buildProductCard(p) {
+            const tallasArr = p.tallas ? p.tallas.toString().split(',').map(t => t.trim()) : ['Única'];
+            const firstImg = Array.isArray(p.img) && p.img.length > 0 ? p.img[0] : 'https://via.placeholder.com/400x500/121212/ffffff?text=X';
 
-            if (filteredProducts.length === 0) {
-                grid.innerHTML = `
-                    <div class="col-span-full py-16 flex flex-col items-center justify-center bg-vi-glass border border-vi-glass-border rounded-[2rem] text-center px-6 shadow-xl backdrop-blur-md">
-                        <i class="fa-solid ${currentCategory === 'cafe' ? 'fa-mug-hot text-amber-500' : 'fa-tags text-white'} text-3xl mb-4 opacity-80"></i>
-                        <h4 class="font-display font-black text-2xl text-white uppercase tracking-tighter mb-2">Cápsula de ${currentCategory.toUpperCase()} En Proceso</h4>
-                        <p class="text-gray-400 text-xs max-w-xs uppercase tracking-widest leading-relaxed font-medium">El inventario para esta categoría se revelará en el próximo anuncio oficial.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            grid.innerHTML = filteredProducts.map(p => {
-                const tallasArr = p.tallas ? p.tallas.toString().split(',').map(t => t.trim()) : ['Única'];
-                const firstImg = Array.isArray(p.img) && p.img.length > 0 ? p.img[0] : 'https://via.placeholder.com/400x500/121212/ffffff?text=X';
-
-                return `
-                <div class="group flex flex-col bg-vi-glass border border-vi-glass-border rounded-[1.5rem] p-3 hover:bg-white/[0.08] smooth shadow-2xl backdrop-blur-md w-full overflow-hidden">
-                    
-                    <div class="relative aspect-[4/5] bg-vi-dark rounded-[1.25rem] overflow-hidden mb-4 flex items-center justify-center cursor-pointer border border-transparent group-hover:border-white/10 smooth w-full" onclick="openLightbox('${p.id}')">
-                        
-                        ${p.img.length > 1 ? `<div class="absolute top-2 right-2 z-30 bg-black/60 backdrop-blur-md text-white text-[9px] font-bold px-2 py-1 rounded-full border border-white/10 shadow-lg flex items-center gap-1"><i class="fa-solid fa-clone"></i> ${p.img.length}</div>` : ''}
-
-                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 smooth z-10"></div>
-                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                            <div class="bg-white/20 text-white backdrop-blur-xl rounded-full w-10 h-10 flex items-center justify-center border border-white/30 shadow-lg">
-                                <i class="fa-solid fa-magnifying-glass text-sm"></i>
-                            </div>
-                        </div>
-                        
-                        <!-- Carga Perezosa (lazy) y Asíncrona para cuidar la CPU -->
-                        <img src="${firstImg}" loading="lazy" decoding="async" onerror="this.src='https://via.placeholder.com/400x500/121212/ffffff?text=X'" alt="${p.name}" class="w-full h-full object-cover grayscale-[0.15] group-hover:grayscale-0 group-hover:scale-105 smooth duration-700">
-                    </div>
-                    
-                    <div class="flex flex-col mb-4 px-1">
-                        <h4 class="font-black tracking-tight text-sm uppercase mb-1 text-white truncate">${p.name}</h4>
-                        <p class="text-gray-400 text-[11px] font-bold tracking-widest">$${Number(p.price).toLocaleString('es-CO')}</p>
-                    </div>
-                    
-                    <div class="flex flex-col gap-2 mt-auto">
-                        <div class="relative w-full text-left dropdown-container">
-                            <div onclick="toggleSizeMenu('${p.id}')" class="bg-black/50 border border-white/10 rounded-xl text-white text-[10px] h-[40px] px-3 flex items-center justify-between outline-none font-bold uppercase tracking-widest hover:border-white/40 smooth cursor-pointer shadow-inner backdrop-blur-md">
-                                <span id="talla-display-${p.id}">${tallasArr[0]}</span>
-                                <i id="talla-icon-${p.id}" class="fa-solid fa-chevron-down text-[9px] text-gray-400 smooth"></i>
-                            </div>
-                            <input type="hidden" id="talla-${p.id}" value="${tallasArr[0]}">
-                            
-                            <div id="talla-menu-${p.id}" class="absolute bottom-[calc(100%+8px)] left-0 w-full bg-[#0a0a0a]/95 border border-white/10 rounded-xl shadow-[0_-10px_40px_rgba(0,0,0,0.6)] backdrop-blur-3xl overflow-hidden hidden flex-col z-[40] opacity-0 translate-y-2 smooth">
-                                ${tallasArr.map(t => `
-                                    <div onclick="selectSize('${p.id}', '${t}')" class="px-4 py-3.5 text-[10px] font-bold uppercase tracking-widest text-center text-gray-400 hover:text-white hover:bg-white/10 cursor-pointer smooth border-b border-white/5 last:border-0">
-                                        ${t}
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-
-                        <!-- Botones apilados inteligentemente -->
-                        <div id="btn-container-${p.id}" class="w-full flex h-[40px]">
-                            <!-- Botones Inyectados -->
+            return `
+            <div class="group flex flex-col bg-vi-glass border border-vi-glass-border rounded-[1.5rem] p-3 hover:bg-white/[0.08] smooth shadow-2xl backdrop-blur-md w-full overflow-hidden">
+                <div class="relative aspect-[4/5] bg-vi-dark rounded-[1.25rem] overflow-hidden mb-4 flex items-center justify-center cursor-pointer border border-transparent group-hover:border-white/10 smooth w-full" onclick="openLightbox('${p.id}')">
+                    ${p.img.length > 1 ? `<div class="absolute top-2 right-2 z-30 bg-black/60 backdrop-blur-md text-white text-[9px] font-bold px-2 py-1 rounded-full border border-white/10 shadow-lg flex items-center gap-1"><i class="fa-solid fa-clone"></i> ${p.img.length}</div>` : ''}
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 smooth z-10"></div>
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                        <div class="bg-white/20 text-white backdrop-blur-xl rounded-full w-10 h-10 flex items-center justify-center border border-white/30 shadow-lg">
+                            <i class="fa-solid fa-magnifying-glass text-sm"></i>
                         </div>
                     </div>
+                    <img src="${firstImg}" loading="lazy" decoding="async" onerror="this.src='https://via.placeholder.com/400x500/121212/ffffff?text=X'" alt="${p.name}" class="w-full h-full object-cover grayscale-[0.15] group-hover:grayscale-0 group-hover:scale-105 smooth duration-700">
                 </div>
-            `}).join('');
+                <div class="flex flex-col mb-4 px-1">
+                    <h4 class="font-black tracking-tight text-sm uppercase mb-1 text-white truncate">${p.name}</h4>
+                    <p class="text-gray-400 text-[11px] font-bold tracking-widest">$${Number(p.price).toLocaleString('es-CO')}</p>
+                </div>
+                <div class="flex flex-col gap-2 mt-auto">
+                    <div class="relative w-full text-left dropdown-container">
+                        <div onclick="toggleSizeMenu('${p.id}')" class="bg-black/50 border border-white/10 rounded-xl text-white text-[10px] h-[40px] px-3 flex items-center justify-between outline-none font-bold uppercase tracking-widest hover:border-white/40 smooth cursor-pointer shadow-inner backdrop-blur-md">
+                            <span id="talla-display-${p.id}">${tallasArr[0]}</span>
+                            <i id="talla-icon-${p.id}" class="fa-solid fa-chevron-down text-[9px] text-gray-400 smooth"></i>
+                        </div>
+                        <input type="hidden" id="talla-${p.id}" value="${tallasArr[0]}">
+                        <div id="talla-menu-${p.id}" class="absolute bottom-[calc(100%+8px)] left-0 w-full bg-[#0a0a0a]/95 border border-white/10 rounded-xl shadow-[0_-10px_40px_rgba(0,0,0,0.6)] backdrop-blur-3xl overflow-hidden hidden flex-col z-[40] opacity-0 translate-y-2 smooth">
+                            ${tallasArr.map(t => `<div onclick="selectSize('${p.id}', '${t}')" class="px-4 py-3.5 text-[10px] font-bold uppercase tracking-widest text-center text-gray-400 hover:text-white hover:bg-white/10 cursor-pointer smooth border-b border-white/5 last:border-0">${t}</div>`).join('')}
+                        </div>
+                    </div>
+                    <div id="btn-container-${p.id}" class="w-full flex h-[40px]"></div>
+                </div>
+            </div>`;
+        }
+
+        function renderProducts(products) {
+            const gridRopa = document.getElementById('grid-ropa');
+            const gridCafe = document.getElementById('grid-cafe');
+            
+            const ropaItems = products.filter(p => !p.categoria || p.categoria.toString().toLowerCase().trim() !== 'cafe');
+            const cafeItems = products.filter(p => p.categoria && p.categoria.toString().toLowerCase().trim() === 'cafe');
+
+            gridRopa.innerHTML = ropaItems.length > 0 ? ropaItems.map(buildProductCard).join('') : `<div class="col-span-full py-16 flex flex-col items-center bg-vi-glass border border-vi-glass-border rounded-[2rem] text-center px-6"><h4 class="font-black text-white uppercase tracking-tighter mb-2">Cápsula Agotada</h4></div>`;
+            
+            gridCafe.innerHTML = cafeItems.length > 0 ? cafeItems.map(buildProductCard).join('') : `<div class="col-span-full py-16 flex flex-col items-center bg-vi-glass border border-vi-glass-border rounded-[2rem] text-center px-6"><i class="fa-solid fa-mug-hot text-amber-500 text-3xl mb-4 opacity-80"></i><h4 class="font-black text-white uppercase tracking-tighter mb-2">Próximo Tueste En Camino</h4><p class="text-gray-400 text-xs uppercase tracking-widest">Inscríbete a la lista prioritaria.</p></div>`;
             
             renderGridButtons();
         }
@@ -1014,6 +991,13 @@
 
             const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
             totalEl.innerText = `$${total.toLocaleString('es-CO')}`;
+            
+            // PERSISTENCIA: Guarda en la memoria del navegador silenciosamente
+            try {
+                localStorage.setItem('vi_cart_memory', JSON.stringify(cart));
+            } catch (e) {
+                console.warn("Memoria local llena, no se pudo guardar el carrito.", e);
+            }
         }
 
         async function sendToWhatsApp() {
