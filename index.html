@@ -963,12 +963,22 @@
                 container.innerHTML = '<div class="h-full flex flex-col items-center justify-center opacity-50"><div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-4"><i class="fa-solid fa-bag-shopping text-2xl text-white"></i></div><p class="text-gray-300 text-[10px] font-bold uppercase tracking-[0.2em] text-center">La cápsula está vacía.</p></div>';
                 totalEl.innerText = '$0';
                 checkoutSection.classList.add('hidden');
+                try { localStorage.removeItem('vi_cart_memory'); } catch(e){}
                 return;
             }
 
             checkoutSection.classList.remove('hidden');
             
-            container.innerHTML = cart.map((item) => `
+            // Verificamos si hay alguna pieza Bespoke en el carrito
+            const hasBespoke = cart.some(item => item.isBespoke);
+            
+            container.innerHTML = cart.map((item) => {
+                // UI Dinámica de Precio
+                const priceDisplay = item.isBespoke 
+                    ? '<span class="text-[9px] text-amber-500 font-black uppercase tracking-widest bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/20">Por Cotizar</span>' 
+                    : `$${(item.price * item.qty).toLocaleString('es-CO')}`;
+
+                return `
                 <div class="flex gap-4 items-center p-3 bg-white/5 border border-white/10 rounded-[1.25rem] shadow-inner backdrop-blur-md">
                     <img src="${Array.isArray(item.img) ? item.img[0] : item.img}" onerror="this.src='https://via.placeholder.com/100x120/121212/ffffff?text=X'" class="w-16 h-20 object-cover rounded-[0.8rem] grayscale opacity-90" alt="${item.name}">
                     <div class="flex-1 flex flex-col justify-between h-full py-0.5">
@@ -977,7 +987,7 @@
                             <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">Talla: <span class="text-white">${item.size}</span></p>
                         </div>
                         <div class="flex justify-between items-end mt-2">
-                            <span class="text-xs font-black text-gray-200">$${(item.price * item.qty).toLocaleString('es-CO')}</span>
+                            <span class="text-xs font-black text-gray-200">${priceDisplay}</span>
                             
                             <div class="flex items-center gap-2 bg-black/60 rounded-lg p-1 border border-white/10 shadow-inner">
                                 <button onclick="updateQty('${item.id}', '${item.size}', -1)" class="w-6 h-6 flex items-center justify-center text-white hover:text-red-400 smooth font-bold bounce-click"><i class="fa-solid fa-minus text-[9px]"></i></button>
@@ -987,10 +997,15 @@
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
 
             const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-            totalEl.innerText = `$${total.toLocaleString('es-CO')}`;
+            totalEl.innerHTML = `$${total.toLocaleString('es-CO')}`;
+            
+            // Advertencia visual si hay Custom
+            if (hasBespoke) {
+                totalEl.innerHTML += `<span class="block text-[8px] text-amber-500 font-medium uppercase tracking-[0.15em] mt-1.5 text-right leading-tight">+ Valor Pieza Custom<br>(Vía WhatsApp)</span>`;
+            }
             
             // PERSISTENCIA: Guarda en la memoria del navegador silenciosamente
             try {
@@ -1072,7 +1087,9 @@
                     message += `%0A(Sin envío incluido)%0A%0A`;
                     message += `Quedo atento para coordinar pago y entrega.`;
 
+                    // DESTRUCCIÓN EXPLÍCITA DE LA MEMORIA
                     cart = [];
+                    try { localStorage.removeItem('vi_cart_memory'); } catch(e){}
                     updateCartUI();
                     renderGridButtons();
                     toggleCart();
