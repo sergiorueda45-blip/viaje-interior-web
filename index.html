@@ -567,6 +567,9 @@
             setTimeout(() => modal.classList.remove('opacity-0'), 10);
             document.body.style.overflow = 'hidden';
             
+            // EVENTO GA4: Interés en pieza custom
+            if (typeof gtag === 'function') gtag('event', 'open_bespoke', { event_category: 'engagement', event_label: 'Custom Piece' });
+            
             // Reset total de memoria al abrir
             bespokeState = {
                 Frente: { base64: null, fileName: null, imgObj: null },
@@ -721,6 +724,15 @@
             updateCartUI();
             closeBespokeModal();
             showToast(`Custom (${placementText}) añadido`);
+            
+            // EVENTO GA4: Añadir Bespoke al carrito
+            if (typeof gtag === 'function') {
+                gtag('event', 'add_to_cart', {
+                    currency: 'COP',
+                    value: 0,
+                    items: [{ item_id: bespokeItem.id, item_name: bespokeItem.name, item_category: 'bespoke' }]
+                });
+            }
             
             const badge = document.getElementById('cart-badge');
             badge.classList.add('scale-150');
@@ -921,6 +933,15 @@
             updateCartUI();
             renderGridButtons();
             
+            // EVENTO GA4: Añadir al carrito
+            if (typeof gtag === 'function') {
+                gtag('event', 'add_to_cart', {
+                    currency: 'COP',
+                    value: product.price,
+                    items: [{ item_id: product.id, item_name: product.name }]
+                });
+            }
+            
             // Animación del globito y Toast, sin abrir el carrito a la fuerza
             showToast('Añadido a la compra');
             const badge = document.getElementById('cart-badge');
@@ -1117,6 +1138,15 @@
                     
                     // BLINDAJE: Solo destruye la memoria si la URL se generó correctamente
                     if (finalUrl) {
+                        // EVENTO GA4: Conversión generada (Intención de compra real)
+                        if (typeof gtag === 'function') {
+                            gtag('event', 'generate_lead', {
+                                currency: 'COP',
+                                value: total,
+                                event_label: hasBespoke ? 'Con Bespoke' : 'Estándar'
+                            });
+                        }
+
                         cart = [];
                         try { localStorage.removeItem('vi_cart_memory'); } catch(e){}
                         updateCartUI();
