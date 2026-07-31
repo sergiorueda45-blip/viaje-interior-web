@@ -1070,7 +1070,7 @@
             const btn = document.getElementById('checkout-btn');
             const originalBtnText = btn.innerHTML;
             
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-lg"></i> Procesando...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-lg"></i> Cifrando orden...';
             btn.disabled = true;
 
             try {
@@ -1131,9 +1131,9 @@
                     message += `%0A(Sin envío incluido)%0A%0A`;
                     message += `Quedo atento para coordinar pago y entrega.`;
                     
-                    // ENRUTADOR HÍBRIDO INTELIGENTE
+                    // ENRUTADOR PROFUNDO (DEEP LINK) PARA EVADIR EL NAVEGADOR
                     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-                    const whatsappBaseUrl = isMobile ? 'https://api.whatsapp.com/send' : 'https://web.whatsapp.com/send';
+                    const whatsappBaseUrl = isMobile ? 'whatsapp://send' : 'https://web.whatsapp.com/send';
                     const finalUrl = `${whatsappBaseUrl}?phone=${phone}&text=${message}`;
                     
                     // BLINDAJE: Solo destruye la memoria si la URL se generó correctamente
@@ -1152,12 +1152,9 @@
                         updateCartUI();
                         renderGridButtons();
                         toggleCart();
-                        showToast('Orden Registrada. Abriendo WhatsApp...');
                         
-                        // Retraso minúsculo (800ms) para que el cliente alcance a leer el Toast de éxito antes de salir
-                        setTimeout(() => {
-                            window.location.href = finalUrl;
-                        }, 800);
+                        // Disparo agresivo inmediato a la App Nativa (Eliminamos el retraso de 800ms)
+                        window.location.href = finalUrl;
                     }
 
                 } else {
