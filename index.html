@@ -1070,7 +1070,13 @@
             const btn = document.getElementById('checkout-btn');
             const originalBtnText = btn.innerHTML;
             
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-lg"></i> Cifrando orden...';
+            // Lógica UX: Detectar si hay piezas Bespoke para justificar la demora visualmente
+            const hasBespoke = cart.some(item => item.isBespoke);
+            if (hasBespoke) {
+                btn.innerHTML = '<i class="fa-solid fa-microchip fa-spin text-lg"></i> Renderizando arte en alta resolución...';
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-lg"></i> Procesando conexión segura...';
+            }
             btn.disabled = true;
 
             try {
@@ -1131,10 +1137,14 @@
                     message += `%0A(Sin envío incluido)%0A%0A`;
                     message += `Quedo atento para coordinar pago y entrega.`;
                     
-                    // ENRUTADOR PROFUNDO (DEEP LINK) PARA EVADIR EL NAVEGADOR
+                    // ENRUTADOR UNIVERSAL DE META (Evita el error de "Número no existe")
                     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-                    const whatsappBaseUrl = isMobile ? 'whatsapp://send' : 'https://web.whatsapp.com/send';
-                    const finalUrl = `${whatsappBaseUrl}?phone=${phone}&text=${message}`;
+                    const whatsappBaseUrl = isMobile ? 'https://wa.me/' : 'https://web.whatsapp.com/send?phone=';
+                    
+                    // Si es móvil usamos el formato wa.me/numero?text=, si es PC usamos web.whatsapp
+                    const finalUrl = isMobile 
+                        ? `${whatsappBaseUrl}${phone}?text=${message}` 
+                        : `${whatsappBaseUrl}${phone}&text=${message}`;
                     
                     // BLINDAJE: Solo destruye la memoria si la URL se generó correctamente
                     if (finalUrl) {
